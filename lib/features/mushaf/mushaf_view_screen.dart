@@ -110,7 +110,6 @@ class _MushafPageView extends StatelessWidget {
           for (final entry in groups.entries) ...[
             Text.rich(
               TextSpan(
-                textDirection: TextDirection.rtl,
                 children: entry.value
                     .map((a) => TextSpan(text: '${a.text} ﴿${a.ayahNumber}﴾ '))
                     .toList(),

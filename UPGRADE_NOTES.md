@@ -495,3 +495,35 @@ the `hide TextDirection` fix; `main.dart` only imports the sub-package
 that doesn't have the conflict). Same standing limitation: no Flutter
 SDK in this sandbox, so your CI run is still the real test — send me the
 log either way.
+
+---
+
+# v1.5.1 — Build fix
+
+Your CI caught a real bug I introduced in v1.5.0:
+
+```
+lib/features/mushaf/mushaf_view_screen.dart:113:17: Error: No named parameter with the name 'textDirection'.
+```
+
+**Root cause**: I put `textDirection: TextDirection.rtl` on a `TextSpan`
+inside the new Mushaf page view. `TextSpan` doesn't have that parameter —
+only `Text`/`Text.rich`/`RichText` do. The outer `Text.rich(...)` already
+had `textDirection: TextDirection.rtl` correctly set; the inner one on
+`TextSpan` was simply wrong. This one's on me, not an environment quirk
+— removed it.
+
+Also cleaned up two things `flutter analyze` flagged in the same run
+(both were "info"/"warning", not build-blocking, but worth fixing since
+"fix deprecated APIs" was on your original list):
+- Removed an unused import in `settings_screen.dart`
+  (`prayer_service.dart`, no longer referenced there).
+- Replaced Geolocator's deprecated `desiredAccuracy:` parameter with the
+  current `locationSettings: LocationSettings(accuracy: ...)` API in
+  `PrayerService`.
+
+Full `flutter analyze` output from your log for reference — remaining
+items are non-blocking style suggestions (`prefer_const_constructors`,
+`use_build_context_synchronously` guarded by existing `mounted` checks)
+that don't affect the build; can clean those up in a future pass if you
+want a fully warning-free `flutter analyze`.

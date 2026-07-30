@@ -66,7 +66,7 @@ class PrayerService {
 
     try {
       final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
       ).timeout(const Duration(seconds: 15));
 
       final url = AppSources.prayerTimesUrl(

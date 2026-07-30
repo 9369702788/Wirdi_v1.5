@@ -3,7 +3,6 @@ import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../core/data/app_sources.dart';
 import '../../core/services/azkar_repository.dart';
-import '../../core/services/prayer_service.dart';
 import '../../core/services/quran_repository.dart';
 import '../../core/services/settings_service.dart';
 import '../../core/services/user_progress_service.dart';
